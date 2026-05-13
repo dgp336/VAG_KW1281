@@ -1,18 +1,35 @@
 'use client';
 
-import React from 'react';
-import Speedometer, {
-  Background,
-  Arc,
-  Needle,
-  Progress,
-  Marks,
-  Indicator,
-  DangerPath,
-} from 'react-speedometer';
+import dynamic from 'next/dynamic';
 import { Metric } from '@/types/metrics';
 
-export function SpeedGauge({ label, value, min, max }: Metric) {
+const Speedometer = dynamic(
+  () => import('react-speedometer').then((module) => module.default),
+  { ssr: false },
+);
+
+const Background = dynamic(
+  () => import('react-speedometer').then((module) => module.Background),
+  { ssr: false },
+);
+
+const Arc = dynamic(() => import('react-speedometer').then((module) => module.Arc), { ssr: false });
+
+const Needle = dynamic(
+  () => import('react-speedometer').then((module) => module.Needle),
+  { ssr: false },
+);
+
+const Progress = dynamic(
+  () => import('react-speedometer').then((module) => module.Progress),
+  { ssr: false },
+);
+
+const Marks = dynamic(() => import('react-speedometer').then((module) => module.Marks), {
+  ssr: false,
+});
+
+export function SpeedGauge({ label, value, max }: Metric) {
   const numValue = parseFloat(value.replace(/[^0-9.]/g, ''));
 
   return (
