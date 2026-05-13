@@ -1,9 +1,11 @@
 'use client';
 
 import { MetricCard } from "@/components/MetricCard";
-import { DEFAULT_METRICS } from "@/types/metrics";
+import { useTelemetry } from "@/hooks/useTelemetry";
 
 export default function Home() {
+  const { metrics, frameIndex, frameCount, isMockLive } = useTelemetry();
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#07111f] text-slate-100">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.2),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(16,185,129,0.16),_transparent_25%),linear-gradient(180deg,_#08111f_0%,_#050b14_100%)]" />
@@ -35,7 +37,9 @@ export default function Home() {
               </div>
               <div className="rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Estado</p>
-                <p className="mt-1 text-sm font-medium text-emerald-300">Conectado</p>
+                <p className="mt-1 text-sm font-medium text-emerald-300">
+                  {isMockLive ? "Mock en bucle" : "Conectado"}
+                </p>
               </div>
             </div>
           </section>
@@ -54,7 +58,7 @@ export default function Home() {
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               <div className="rounded-2xl bg-white/5 p-4">
                 <p className="text-sm text-slate-400">Métricas activas</p>
-                <p className="mt-1 text-2xl font-semibold text-white">6</p>
+                <p className="mt-1 text-2xl font-semibold text-white">{metrics.length}</p>
               </div>
               <div className="rounded-2xl bg-white/5 p-4">
                 <p className="text-sm text-slate-400">Fallos detectados</p>
@@ -63,13 +67,13 @@ export default function Home() {
             </div>
 
             <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-4 text-sm leading-6 text-cyan-50">
-              La primera iteración queda lista para sustituir datos mock por tramas reales sin reestructurar la UI.
+              Lecturas simuladas actualizándose en ciclo {frameIndex + 1}/{frameCount} para validar cambios visuales.
             </div>
           </aside>
         </header>
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {DEFAULT_METRICS.map((metric) => (
+          {metrics.map((metric) => (
             <MetricCard key={metric.label} {...metric} />
           ))}
         </section>

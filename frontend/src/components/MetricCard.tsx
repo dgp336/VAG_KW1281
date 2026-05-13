@@ -1,9 +1,21 @@
 import type { Metric } from "@/types/metrics";
 
+function getProgressWidth(value: string, min: number, max: number) {
+  const normalizedValue = Number.parseFloat(value.replace(/,/g, ""));
+
+  if (!Number.isFinite(normalizedValue) || max <= min) {
+    return "42%";
+  }
+
+  const clampedValue = Math.min(Math.max(normalizedValue, min), max);
+  const percentage = ((clampedValue - min) / (max - min)) * 100;
+
+  return `${Math.min(Math.max(percentage, 0), 100)}%`;
+}
+
 export function MetricCard({
   label,
   value,
-  detail,
   accent,
   min,
   max,
@@ -14,7 +26,6 @@ export function MetricCard({
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-slate-400">{label}</p>
           <p className="mt-2 text-3xl font-semibold text-white">{value}</p>
-          <p className="mt-1 text-sm text-slate-400">{detail}</p>
         </div>
         <div className={`h-3 w-3 rounded-full ${accent} animate-pulse`} />
       </div>
@@ -29,7 +40,10 @@ export function MetricCard({
           <span>{max}</span>
         </div>
         <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/5">
-          <div className="h-full w-[42%] rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-emerald-300" />
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-emerald-300 transition-[width] duration-700 ease-out"
+            style={{ width: getProgressWidth(value, min, max) }}
+          />
         </div>
       </div>
     </article>
