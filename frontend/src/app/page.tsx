@@ -1,10 +1,16 @@
 'use client';
 
 import { MetricCard } from "@/components/MetricCard";
+import { RPMGauge } from "@/components/RPMGauge";
+import { SpeedGauge } from "@/components/SpeedGauge";
 import { useTelemetry } from "@/hooks/useTelemetry";
 
 export default function Home() {
   const { metrics, frameIndex, frameCount, isMockLive } = useTelemetry();
+
+  const rpmMetric = metrics.find((m) => m.label === "RPM");
+  const speedMetric = metrics.find((m) => m.label === "Velocidad");
+  const otherMetrics = metrics.filter((m) => m.label !== "RPM" && m.label !== "Velocidad");
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#07111f] text-slate-100">
@@ -72,8 +78,13 @@ export default function Home() {
           </aside>
         </header>
 
+        <section className="grid gap-6 md:grid-cols-2">
+          {rpmMetric && <RPMGauge {...rpmMetric} />}
+          {speedMetric && <SpeedGauge {...speedMetric} />}
+        </section>
+
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {metrics.map((metric) => (
+          {otherMetrics.map((metric) => (
             <MetricCard key={metric.label} {...metric} />
           ))}
         </section>

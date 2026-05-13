@@ -23,7 +23,7 @@ const METRIC_CONFIG: MetricConfig[] = [
     label: "Velocidad",
     accent: "bg-emerald-300",
     min: 0,
-    max: 220,
+    max: 240,
     select: (values) => values.speedKmh,
     format: (value) => `${Math.round(value)} km/h`,
   },

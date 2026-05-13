@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ECU_MOCK_FRAMES } from "@/lib/ecuMockFrames";
 import { adaptFrameToMetrics } from "@/lib/telemetryAdapter";
 
-export function useTelemetry(intervalMs = 200) {
+export function useTelemetry(intervalMs = 1000) {
   const [frameIndex, setFrameIndex] = useState(0);
 
   const metricsByFrame = useMemo(() => ECU_MOCK_FRAMES.map((frame) => adaptFrameToMetrics(frame)), []);
