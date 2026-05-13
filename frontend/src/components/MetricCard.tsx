@@ -30,10 +30,6 @@ export function MetricCard({
         <div className={`h-3 w-3 rounded-full ${accent} animate-pulse`} />
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-2xl bg-white/5 p-3">
-        <div className="h-12 w-full rounded-xl bg-[linear-gradient(90deg,rgba(255,255,255,0.04),rgba(255,255,255,0.08),rgba(255,255,255,0.04))]" />
-      </div>
-
       <div className="mt-4">
         <div className="flex justify-between text-xs text-slate-500">
           <span>{min}</span>
